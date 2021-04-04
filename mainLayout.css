@@ -1,0 +1,66 @@
+/* Copyright (c) 2017 MIT 6.813/6.831 course staff, all rights reserved.
+ * Redistribution of original or derived work requires permission of course staff.
+ */
+
+/* REMOVE ME - dashed lines and height for debugging */
+#mainColumn {
+  outline: 1px dashed orange;
+  height: 200px;
+}
+
+/* Your css code here! */
+
+.button {
+  background-color: #c4c4c4;
+  border: none;
+  color: #000000;
+  padding: 6.5px 30px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+	border-radius: 4px;
+}
+
+.button:disabled {
+  background-color: lightgrey;
+  color: black;
+}
+
+.upbtn {
+  margin: 0;
+  position: absolute;
+  top: 60px;
+  left: 65px;
+}
+
+.rightbtn {
+  margin: 0;
+  position: absolute;
+  top: 95px;
+  left: 105px;
+}
+
+.downbtn {
+  margin: 0;
+  position: absolute;
+  top: 130px;
+  left: 65px;
+}
+
+.leftbtn {
+  margin: 0;
+  position: absolute;
+  top: 95px;
+  left: 27px;
+}
+
+.crushbtn{
+  margin: 0;
+  position: absolute;
+  top: 175px;
+  left: 35px;
+}
+

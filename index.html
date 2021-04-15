@@ -12,188 +12,233 @@ Collaborators: None
 -->
 
 <head>
-<meta charset="utf-8">
-<title>CandyCrush</title>
-
-<!-- Load style sheets -->
-<link rel="stylesheet" href=
-  "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css">
-
-<link rel="stylesheet" href="mainLayout.css">
-
-<!-- Use mobile-aware viewport -->
-<meta name="viewport" content=
-  "width=device-width, initial-scale=1, shrink-to-fit=no">
-
-<!-- Load any supplemental Javascript libraries here -->
-<script src=
-  "https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src=
-  "https://cdnjs.cloudflare.com/ajax/libs/seedrandom/2.4.2/seedrandom.js">
-</script>
-<script src="candy.js"></script>
-<script src="board.js"></script>
-<script src="rules.js"></script>
-
-<script>
-
-// By default, the first board loaded by your page will be the same 
-// each time you load (which is accomplished by "seeding" the random
-// number generator. This makes testing (and grading!) easier!
-Math.seedrandom(0);
-
-
-// A short jQuery extension to read query parameters from the URL.
-$.extend({
-  getUrlVars: function() {
-    var vars = [], pair;
-    var pairs = window.location.search.substr(1).split('&');
-    for (var i = 0; i < pairs.length; i++) {
-      pair = pairs[i].split('=');
-      vars.push(pair[0]);
-      vars[pair[0]] = pair[1] &&
-          decodeURIComponent(pair[1].replace(/\+/g, ' '));
-    }
-    return vars;
-  },
-  getUrlVar: function(name) {
-    return $.getUrlVars()[name];
-  }
-});
-
-// constants
-var DEFAULT_BOARD_SIZE = 8;
-
-// data model at global scope for easier debugging
+  <meta charset="utf-8">
+  <title>CandyCrush</title>
+	
+  <!-- Load style sheets -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css">
+  <link rel="stylesheet" href="mainLayout.css">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+  <!-- Use mobile-aware viewport -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	
+  <!-- Load any supplemental Javascript libraries here -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/seedrandom/2.4.2/seedrandom.js">
+  </script>
+  <script src="candy.js"></script>
+  <script src="board.js"></script>
+  <script src="rules.js"></script>
+	
+  <script>
+    // By default, the first board loaded by your page will be the same 
+    // each time you load (which is accomplished by "seeding" the random
+    // number generator. This makes testing (and grading!) easier!
+    Math.seedrandom(0);
+    // A short jQuery extension to read query parameters from the URL.
+    $.extend({
+      getUrlVars: function() {
+        var vars = [],
+          pair;
+        var pairs = window.location.search.substr(1).split('&');
+        for(var i = 0; i < pairs.length; i++) {
+          pair = pairs[i].split('=');
+          vars.push(pair[0]);
+          vars[pair[0]] = pair[1] && decodeURIComponent(pair[1].replace(/\+/g, ' '));
+        }
+        return vars;
+      },
+      getUrlVar: function(name) {
+        return $.getUrlVars()[name];
+      }
+    });
+    // constants
+    var DEFAULT_BOARD_SIZE = 8;
+		
+    // data model at global scope for easier debugging
 var board;
 var rules;
-
+		
 // initialize board
-if ($.getUrlVar('size') && $.getUrlVar('size') >= 3) {
-  board = new Board($.getUrlVar('size'));
+var BOARD_SIZE = parseInt($.getUrlVar('size'));
+if (!isNaN(BOARD_SIZE) && BOARD_SIZE >= 3 && BOARD_SIZE <= 20) {
+  board = new Board(BOARD_SIZE);
 } else {
+  BOARD_SIZE = DEFAULT_BOARD_SIZE;
   board = new Board(DEFAULT_BOARD_SIZE);
 }
+		
+    // Final initialization entry point: the Javascript code inside this block
+    // runs at the end of start-up when the page has finished loading.
+    $(document).ready(function() {
+      // Your code here.
+				rules.prepareNewGame();
+				checkCrushOnce();
+    });
+		
+		function newGame() {
+			board.clear();
+			rules.prepareNewGame();
+			checkCrushOnce();
+			clearArrow();
+		}
+		
+    /* Event Handlers */
+    // access the candy object with info.candy
+    // add a candy to the board
+    $(board).on('add', function(e, info) {
+      // Your code here.
+    });
+		
+    // move a candy on the board
+    $(board).on('move', function(e, info) {
+      // Your code here.
+    });
+		
+    // remove a candy from the board
+    $(board).on('remove', function(e, info) {
+      // Your code here.
+    });
+		
+    // move a candy on the board
+    $(board).on('scoreUpdate', function(e, info) {
+      // Your code here. To be implemented in pset 2.
+    });
+		
+    // Button Events
+    $(document).on('click', "#buttonIDhere", function(evt) {
+      // Your code here.
+    });
+		
+    // keyboard events arrive here
+    $(document).on('keydown', function(evt) {
+      // Your code here.
+    });
 
-// load a rule
-rules = new Rules(board);
-
-// Final initialization entry point: the Javascript code inside this block
-// runs at the end of start-up when the page has finished loading.
-$(document).ready(function()
-{
-  // Your code here.
-});
-
-
-/* Event Handlers */
-// access the candy object with info.candy
-
-// add a candy to the board
-$(board).on('add', function(e, info)
-{
-  // Your code here.
-});
-
-// move a candy on the board
-$(board).on('move', function(e, info)
-{
-  // Your code here.
-});
-
-// remove a candy from the board
-$(board).on('remove', function(e, info)
-{
-  // Your code here.
-});
-
-// move a candy on the board
-$(board).on('scoreUpdate', function(e, info)
-{
-  // Your code here. To be implemented in pset 2.
-});
-
-// Button Events
-$(document).on('click', "#buttonIDhere", function(evt)
-{
-  // Your code here.
-});
-
-// keyboard events arrive here
-$(document).on('keydown', function(evt) {
-  // Your code here.
-});
-
-
-</script>
-
-
+		
+  </script>
 </head>
 
 <body>
-
-	
-	
-<div class="container">
-  <div class="row">
-    <div class="col-md-4" id="firstColumn">
-      <div>
-      <!-- Column 1 Code Here -->
-      Column 1
-				<div><h2 style="color:red;" class="text-center"><b>Candy</b></h2></div>
-				<div><h2 style="color:red;" class="text-center"><b>Crush</b></h2></div>
-				<div class="text-center"><button class="button">New Game</button></div>
-
-				
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4" id="firstColumn">
+        <div>
+          <!-- Column 1 Code Here --> Column 1 <div>
+            <h2 style="color:red;" class="text-center"><b>Candy</b></h2>
+          </div>
+          <div>
+            <h2 style="color:red;" class="text-center"><b>Crush</b></h2>
+          </div>
+          <div class="text-center"><button class="button">New Game</button></div>
+        </div>
       </div>
-  </div>
+      <div class="col-md-4" id="mainColumn">
+        <!-- Column 2 Code Here --> Column 2
+<div class="grid-container">
 
-    <div class="col-md-4" id="mainColumn">
+  <div class="grid-item" style="background-color:red;">a1</div>  
+  <div class="grid-item2" style="background-color:blue;">b1</div>
+  <div class="grid-item" style="background-color:yellow;">c1</div>
+  <div class="grid-item2"style="background-color:blue;">d1</div>  
+  <div class="grid-item2"style="background-color:green;">e1</div>
+  <div class="grid-item"style="background-color:yellow;">f1</div>
+  <div class="grid-item2"style="background-color:blue;">g1</div>  
+  <div class="grid-item2"style="background-color:purple;">h1</div>  
+    
+  <div class="grid-item"style="background-color:orange;">a2</div>  
+  <div class="grid-item"style="background-color:red;">b2</div>
+  <div class="grid-item2"style="background-color:blue;">c2</div>
+  <div class="grid-item2"style="background-color:green;">d2</div>  
+  <div class="grid-item"style="background-color:red;">e2</div>
+  <div class="grid-item"style="background-color:yellow;">f2</div>
+  <div class="grid-item"style="background-color:red;">g2</div>  
+  <div class="grid-item2"style="background-color:purple;">h2</div>  
+  
+  <div class="grid-item"style="background-color:orange;">a3</div>  
+  <div class="grid-item"style="background-color:red;">b3</div>
+  <div class="grid-item2"style="background-color:green;">c3</div>
+  <div class="grid-item"style="background-color:yellow;">d3</div>  
+  <div class="grid-item2"style="background-color:blue;">e3</div>
+  <div class="grid-item2"style="background-color:green;">f3</div>
+  <div class="grid-item2"style="background-color:purple;">g3</div>  
+  <div class="grid-item"style="background-color:yellow;">h3</div>
+  
+  <div class="grid-item"style="background-color:orange;">a4</div>  
+  <div class="grid-item"style="background-color:yellow;">b4</div>
+  <div class="grid-item"style="background-color:red;">c4</div>
+  <div class="grid-item"style="background-color:red;">d4</div>  
+  <div class="grid-item2"style="background-color:green;">e4</div>
+  <div class="grid-item2"style="background-color:blue;">f4</div>
+  <div class="grid-item2"style="background-color:purple;">g4</div>  
+  <div class="grid-item"style="background-color:red;">h4</div>
+  
+  <div class="grid-item2"style="background-color:green;">a5</div>  
+  <div class="grid-item2"style="background-color:purple;">b5</div>
+  <div class="grid-item"style="background-color:yellow;">c5</div>
+  <div class="grid-item"style="background-color:red;">d5</div>  
+  <div class="grid-item"style="background-color:red;">e5</div>
+  <div class="grid-item2"style="background-color:blue;">f5</div>
+  <div class="grid-item2"style="background-color:green;">g5</div>  
+  <div class="grid-item"style="background-color:yellow;">h5</div>
+  
+  <div class="grid-item"style="background-color:red;">a6</div>  
+  <div class="grid-item2"style="background-color:blue;">b6</div>
+  <div class="grid-item2"style="background-color:blue;">c6</div>
+  <div class="grid-item2"style="background-color:green;">d6</div>  
+  <div class="grid-item"style="background-color:yellow;">e6</div>
+  <div class="grid-item2"style="background-color:purple;">f6</div>
+  <div class="grid-item"style="background-color:orange;">g6</div>  
+  <div class="grid-item"style="background-color:red;">h6</div>
+  
+  <div class="grid-item"style="background-color:orange;">a7</div>  
+  <div class="grid-item"style="background-color:yellow;">b7</div>
+  <div class="grid-item2"style="background-color:green;">c7</div>
+  <div class="grid-item2"style="background-color:purple;">d7</div>  
+  <div class="grid-item2"style="background-color:purple;">e7</div>
+  <div class="grid-item2"style="background-color:green;">f7</div>
+  <div class="grid-item2"style="background-color:blue;">g7</div>  
+  <div class="grid-item"style="background-color:red;">h7</div>
+  
+  <div class="grid-item"style="background-color:yellow;">a8</div>  
+  <div class="grid-item"style="background-color:orange;">b8</div>
+  <div class="grid-item2"style="background-color:green;">c8</div>
+  <div class="grid-item2"style="background-color:purple;">d8</div>  
+  <div class="grid-item"style="background-color:red;">e8</div>
+  <div class="grid-item"style="background-color:yellow;">f8</div>
+  <div class="grid-item"style="background-color:yellow;">g8</div>  
+  <div class="grid-item"style="background-color:red;">h8</div>
 
-      <!-- Column 2 Code Here -->
-      Column 2
-
-	
-
-    </div>
-
-    <div class="col-md-4" id="lastColumn">
-
-      <!-- Column 3 Code Here -->
-      Column 3
-			
-							
-				<form action="/action_page.php">
-				<label for="move"><b>Move:</b></label>
-				<input type="text" id="move" name="move" size="1"><br><br>
-			</form>
-			
-			<div class="upbtn">
-			<button>Up</button>
-		</div>	
-			
-					<div class="rightbtn">
-			<button>Ri</button>
-		</div>	
-			
-						<div class="downbtn">
-			<button>Do</button>
-		</div>	
-			
-						<div class="leftbtn">
-			<button>Le</button>
-		</div>	
-			
-									<div class="crushbtn">
-			<button>Crush Once</button>
-		</div>	
-			
-			
-
-    </div>
-  </div> <!-- class="row" -->
-</div> <!-- class="container" -->
-
+  
+  
+</div>
+      </div>
+      <div class="col-md-4" id="lastColumn">
+        <!-- Column 3 Code Here --> Column 3 <form action="/action_page.php">
+          <label for="move"><b>Move:</b></label>
+          <input type="text" id="move" name="move" size="1"><br><br>
+        </form>
+        <div class="upbtn">
+          <button><i class="fa fa-long-arrow-up"></i></button>
+        </div>
+        <div class="rightbtn">
+          <button><i class="fa fa-long-arrow-right"></i></button>
+        </div>
+        <div class="downbtn">
+          <button><i class="fa fa-long-arrow-down"></i></button>
+        </div>
+        <div class="leftbtn">
+          <button><i class="fa fa-long-arrow-left"></i></button>
+        </div>
+        <div class="crushbtn">
+          <button>Crush Once</button>
+        </div>
+      </div>
+    </div> <!-- class="row" -->
+  </div> <!-- class="container" -->
 </body>
 
 </html>

@@ -10,6 +10,50 @@
 
 /* Your css code here! */
 
+.grid {
+	height: 320px;
+	width: 320px;
+	display: flex;
+	flex-wrap: wrap;
+	background-color: blue;
+}
+
+.grid div {
+	height: 40px;
+	width: 40px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto auto auto auto;
+  background-color: white;
+  padding: 10px;
+  width: 10px;
+}
+.grid-item {
+background-color: white;
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 10px;
+  font-size: 12px;
+  text-align: center;
+	width: 35px;
+	height: 37px;
+	font-weight: bold;
+	color: black;
+}
+
+.grid-item2 {
+background-color: white;
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 10px;
+  font-size: 12px;
+  text-align: center;
+	width: 35px;
+	height: 37px;
+	font-weight: bold;
+	color: white;
+}
+
 .button {
   background-color: #c4c4c4;
   border: none;
@@ -24,10 +68,6 @@
 	border-radius: 4px;
 }
 
-.button:disabled {
-  background-color: lightgrey;
-  color: black;
-}
 
 .upbtn {
   margin: 0;
@@ -40,7 +80,7 @@
   margin: 0;
   position: absolute;
   top: 95px;
-  left: 105px;
+  left: 90px;
 }
 
 .downbtn {
